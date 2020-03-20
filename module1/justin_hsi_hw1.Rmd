@@ -3,10 +3,15 @@ title: "R Notebook"
 output:
   html_document: default
   html_notebook: default
+  pdf_document: default
 ---
 
 **Principles of Data Visualization and Introduction to ggplot2**
 
+```{r}
+library(ggplot2)
+library(dplyr)
+```
 
 I have provided you with data about the 5,000 fastest growing companies in the US, as compiled by Inc. magazine. lets read this in:
 
@@ -49,9 +54,10 @@ summary(na_emp)
 
 Create a graph that shows the distribution of companies in the dataset by State (ie how many are in each state). There are a lot of States, so consider which axis you should use. This visualization is ultimately going to be consumed on a 'portrait' oriented screen (ie taller than wide), which should further guide your layout choices.
 
-```{r}
+```{r fig.height=14, fig.width=8}
 
 # Answer Question 1 here
+ggplot(inc, aes(x=State)) + geom_bar() + coord_flip()
 
 ```
 
@@ -59,20 +65,28 @@ Create a graph that shows the distribution of companies in the dataset by State 
 
 Lets dig in on the state with the 3rd most companies in the data set. Imagine you work for the state and are interested in how many people are employed by companies in different industries. Create a plot that shows the average and/or median employment by industry for companies in this state (only use cases with full data, use R's `complete.cases()` function.) In addition to this, your graph should show how variable the ranges are, and you should deal with outliers.
 
-```{r}
+```{r fig.height=8, fig.width=8}
 
 # Answer Question 2 here
-
+counts = count(inc, vars=State, sort = TRUE)
+ordered_states = counts %>% pull(vars)
+third_most_state = ordered_states[3]
+NY_state = subset(inc, State == third_most_state)
+subset = NY_state[complete.cases(NY_state),]
+ggplot(subset, aes(y = Employees, x = Industry)) + geom_boxplot() + scale_y_continuous(trans='log10') + stat_summary(fun.y=mean, geom="point", shape=20, size=2, color="red", fill="red") + ylab('Employees in log scale') + theme(axis.text.x = element_text(angle = 90, hjust = 1))
 ```
 
 ## Question 3
 
 Now imagine you work for an investor and want to see which industries generate the most revenue per employee. Create a chart that makes this information clear. Once again, the distribution per industry should be shown.
 
-```{r}
+```{r fig.height=8, fig.width=8}
 
 # Answer Question 3 here
-
+# Assuming still for NY state
+NY_state$Rev_per_emp = NY_state$Revenue/NY_state$Employees
+subset = NY_state[complete.cases(NY_state),]
+ggplot(subset, aes(y = Rev_per_emp, x = Industry)) + geom_boxplot() + scale_y_continuous(trans='log10') + stat_summary(fun.y=mean, geom="point", shape=20, size=2, color="red", fill="red") + ylab('Revenue per Employee in log scale') + theme(axis.text.x = element_text(angle = 90, hjust = 1))
 ```
 
 
