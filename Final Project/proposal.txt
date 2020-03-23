@@ -1,0 +1,22 @@
+'''
+Links to data source:
+original data https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page
+processed with script in https://github.com/holoviz/datashader/tree/master/examples
+
+I am considering re-running the script on new data from the original site
+since I see they have data for 2019. I may also try and combine
+yellow taxi and green taxi data.
+
+I would like to do more analysis on this dataset with datashader, and then
+try and get interactivity witht he holoviews + bokeh approach.
+
+Specifically, I think the there could be interesting relationships to investigate
+between fare, payment type, tip amount, and distance traveled. I also
+think using the vendorid category could be interesting and might show
+something about where certain vendors (taxi businesses?) operate.
+
+In terms of business, I'm considering looking at maybe a few years
+of data, and giving the option to filter by year. Maybe we can see how fares
+or number of rides are changing (maybe due to things like competition from
+rideshar).
+'''
