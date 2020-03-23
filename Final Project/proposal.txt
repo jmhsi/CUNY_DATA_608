@@ -15,8 +15,8 @@ between fare, payment type, tip amount, and distance traveled. I also
 think using the vendorid category could be interesting and might show
 something about where certain vendors (taxi businesses?) operate.
 
-In terms of business, I'm considering looking at maybe a few years
+I'm also considering looking at maybe a few years
 of data, and giving the option to filter by year. Maybe we can see how fares
 or number of rides are changing (maybe due to things like competition from
-rideshar).
+rideshare).
 '''
