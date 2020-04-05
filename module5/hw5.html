@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Module 5</title>
+        <h1>Module 5</h1>
+        <h2>Justin Hsi</h2>
+        <!-- d3 csv parser -->
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    </head>
+    <body>
+        <h3>Beginner</h3>
+        <p>Create a function that takes an input number, and prints a table with the first 20 multiples of the number, in order 5x4</p>
+
+        <!--Functions to generate table from input-->
+        <script type="text/javascript">
+
+        function html_table(num){
+            array = [];
+            for (i = 1; i <= 20; i++) {array.push(num * i)};
+
+            var final_html = '<table border="1">';
+            for (i = 0; i < 20; i++){
+                if (i % 4 == 0) { 
+                    final_html = final_html +'<tr>'
+                };
+                final_html = final_html + '<td>' + array[i] + '</td>';
+                if (i % 4 == 3){
+                    final_html = final_html + '</tr>'
+                };
+
+            };
+            final_html = final_html + '</table>';
+            return final_html
+        };
+
+
+        function display_table(){
+            var t = document.getElementById("target");
+            t.innerHTML = html_table(document.getElementById('num').value);
+        }
+
+        </script>
+
+        <!--Input Form 1-->
+        <form name="my_table">
+            <input id="num" type="number" size="5">
+            <input type="button" value="Make Table" onClick="display_table();">
+        </form>
+        <br>
+
+        <!--Table Output-->
+        <div id="target"></div>
+
+        <h3>Intermediate</h3>
+        <p>Write a function to load the presidents.csv data and display the data as an html table (you may use a csv parser from any available library, though I encourage you to try the d3 one).<p>
+
+        <!-- Function to read csv and generate table -->
+        <script>
+            var tabulate = function (data,columns) {
+            var table = d3.select('body').append('table')
+            var thead = table.append('thead')
+            var tbody = table.append('tbody')
+
+            thead.append('tr')
+            .selectAll('th')
+            .data(columns)
+            .enter()
+            .append('th')
+            .text(function (d) { return d })
+
+            var rows = tbody.selectAll('tr')
+            .data(data)
+            .enter()
+            .append('tr')
+
+            var cells = rows.selectAll('td')
+            .data(function(row) {
+            return columns.map(function (column) {
+            return { column: column, value: row[column] }
+            })
+            })
+            .enter()
+            .append('td')
+            .text(function (d) { return d.value })
+
+            return table;
+            }
+
+            d3.csv('data/presidents.csv',function (data) {
+            var columns = ['Name','Height','Weight']
+            tabulate(data,columns)
+            })
+        </script>
+    </body>
+</html>
